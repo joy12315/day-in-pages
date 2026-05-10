@@ -14,7 +14,122 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      entries: {
+        Row: {
+          content: string
+          created_at: string
+          day: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          content?: string
+          created_at?: string
+          day: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          day?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      entry_photos: {
+        Row: {
+          created_at: string
+          entry_id: string
+          id: string
+          sort_order: number
+          storage_path: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          entry_id: string
+          id?: string
+          sort_order?: number
+          storage_path: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          entry_id?: string
+          id?: string
+          sort_order?: number
+          storage_path?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "entry_photos_entry_id_fkey"
+            columns: ["entry_id"]
+            isOneToOne: false
+            referencedRelation: "entries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          auto_generate_at: string
+          created_at: string
+          display_name: string | null
+          id: string
+          sound_enabled: boolean
+          timezone: string
+        }
+        Insert: {
+          auto_generate_at?: string
+          created_at?: string
+          display_name?: string | null
+          id: string
+          sound_enabled?: boolean
+          timezone?: string
+        }
+        Update: {
+          auto_generate_at?: string
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          sound_enabled?: boolean
+          timezone?: string
+        }
+        Relationships: []
+      }
+      stories: {
+        Row: {
+          day: string
+          generated_at: string
+          id: string
+          status: string
+          summary: string | null
+          title: string | null
+          user_id: string
+        }
+        Insert: {
+          day: string
+          generated_at?: string
+          id?: string
+          status?: string
+          summary?: string | null
+          title?: string | null
+          user_id: string
+        }
+        Update: {
+          day?: string
+          generated_at?: string
+          id?: string
+          status?: string
+          summary?: string | null
+          title?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
