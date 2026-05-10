@@ -81,10 +81,7 @@ function StoryPage() {
   const onGenerate = async () => {
     setGenerating(true);
     try {
-      await generate({ data: { date } as any }).catch(async () => {
-        // input expects 'day'
-        return generate({ data: { day: date } as any });
-      });
+      await generate({ data: { day: date } });
       setRefresh(k => k + 1);
       toast.success("故事已编织好啦 ✨");
     } catch (e: any) {
