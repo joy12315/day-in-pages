@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
+import { useServerFn } from "@tanstack/react-start";
 import { formatTime } from "@/lib/date";
+import { generateImage } from "@/lib/image.functions";
+import { Sparkles, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 export type EntryWithPhotos = {
   id: string;
@@ -45,6 +49,55 @@ export function useDayEntries(userId: string | undefined, day: string, refreshKe
   return { entries, loading };
 }
 
+function AiImageButton({ prompt }: { prompt: string }) {
+  const gen = useServerFn(generateImage);
+  const [busy, setBusy] = useState(false);
+  const [url, setUrl] = useState<string | null>(null);
+
+  const onClick = async () => {
+    if (!prompt.trim()) {
+      toast.error("这条日记没有文字，无法配图");
+      return;
+    }
+    setBusy(true);
+    try {
+      const res = await gen({ data: { prompt } });
+      if (res.error || !res.url) {
+        toast.error(res.error ?? "生成失败");
+      } else {
+        setUrl(res.url);
+        toast.success("配图完成 ✨");
+      }
+    } catch (e: any) {
+      toast.error(e?.message ?? "生成失败");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="mt-3">
+      <button
+        onClick={onClick}
+        disabled={busy}
+        className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full bg-accent text-foreground hover:opacity-90 disabled:opacity-50 transition shadow-soft"
+      >
+        {busy ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5" />}
+        {busy ? "正在配图…" : "✨ AI 配图"}
+      </button>
+      {url && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="mt-3 rounded-xl overflow-hidden bg-muted"
+        >
+          <img src={url} alt="AI 生成的配图" className="w-full h-auto" />
+        </motion.div>
+      )}
+    </div>
+  );
+}
+
 export function Timeline({ entries }: { entries: EntryWithPhotos[] }) {
   if (entries.length === 0) {
     return (
@@ -80,6 +133,7 @@ export function Timeline({ entries }: { entries: EntryWithPhotos[] }) {
                   ))}
                 </div>
               )}
+              {e.content && <AiImageButton prompt={e.content} />}
             </div>
           </motion.div>
         ))}
