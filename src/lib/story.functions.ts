@@ -1,11 +1,12 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { supabaseAuthClientMiddleware } from "@/integrations/supabase/auth-client-middleware";
 
 const Input = z.object({ day: z.string().regex(/^\d{4}-\d{2}-\d{2}$/) });
 
 export const generateDailyStory = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
+  .middleware([supabaseAuthClientMiddleware, requireSupabaseAuth])
   .inputValidator((d: unknown) => Input.parse(d))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
