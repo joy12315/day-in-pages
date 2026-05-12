@@ -64,12 +64,12 @@ Deno.serve(async (req) => {
       method: "POST",
       headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "black-forest-labs/FLUX.1-dev",
+        model: "Kwai-Kolors/Kolors",
         prompt: optimizedPrompt,
         image_size: "1024x1024",
         batch_size: 1,
         num_inference_steps: 20,
-        guidance_scale: 3.5,
+        guidance_scale: 5,
       }),
     });
 
