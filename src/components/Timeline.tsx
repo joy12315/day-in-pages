@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
-import { useServerFn } from "@tanstack/react-start";
 import { formatTime } from "@/lib/date";
-import { generateImage } from "@/lib/image.functions";
 import { Sparkles, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -50,9 +48,9 @@ export function useDayEntries(userId: string | undefined, day: string, refreshKe
 }
 
 function AiImageButton({ prompt }: { prompt: string }) {
-  const gen = useServerFn(generateImage);
   const [busy, setBusy] = useState(false);
   const [url, setUrl] = useState<string | null>(null);
+  const [optimized, setOptimized] = useState<string | null>(null);
 
   const onClick = async () => {
     if (!prompt.trim()) {
@@ -61,11 +59,14 @@ function AiImageButton({ prompt }: { prompt: string }) {
     }
     setBusy(true);
     try {
-      const res = await gen({ data: { prompt } });
-      if (res.error || !res.url) {
-        toast.error(res.error ?? "生成失败");
+      const { data, error } = await supabase.functions.invoke("generate-diary-image", {
+        body: { diaryText: prompt },
+      });
+      if (error || !data?.imageUrl) {
+        toast.error(data?.error ?? error?.message ?? "生成失败");
       } else {
-        setUrl(res.url);
+        setUrl(data.imageUrl);
+        setOptimized(data.optimizedPrompt ?? null);
         toast.success("配图完成 ✨");
       }
     } catch (e: any) {
@@ -92,6 +93,11 @@ function AiImageButton({ prompt }: { prompt: string }) {
           className="mt-3 rounded-xl overflow-hidden bg-muted"
         >
           <img src={url} alt="AI 生成的配图" className="w-full h-auto" />
+          {optimized && (
+            <div className="px-3 py-2 text-[11px] text-muted-foreground border-t bg-card">
+              <span className="opacity-70">prompt：</span>{optimized}
+            </div>
+          )}
         </motion.div>
       )}
     </div>
