@@ -93,6 +93,11 @@ function AiImageButton({ prompt }: { prompt: string }) {
           className="mt-3 rounded-xl overflow-hidden bg-muted"
         >
           <img src={url} alt="AI 生成的配图" className="w-full h-auto" />
+          {optimized && (
+            <div className="px-3 py-2 text-[11px] text-muted-foreground border-t bg-card">
+              <span className="opacity-70">prompt：</span>{optimized}
+            </div>
+          )}
         </motion.div>
       )}
     </div>
