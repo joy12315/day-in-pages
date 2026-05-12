@@ -48,9 +48,9 @@ export function useDayEntries(userId: string | undefined, day: string, refreshKe
 }
 
 function AiImageButton({ prompt }: { prompt: string }) {
-  const gen = useServerFn(generateImage);
   const [busy, setBusy] = useState(false);
   const [url, setUrl] = useState<string | null>(null);
+  const [optimized, setOptimized] = useState<string | null>(null);
 
   const onClick = async () => {
     if (!prompt.trim()) {
@@ -59,11 +59,14 @@ function AiImageButton({ prompt }: { prompt: string }) {
     }
     setBusy(true);
     try {
-      const res = await gen({ data: { prompt } });
-      if (res.error || !res.url) {
-        toast.error(res.error ?? "生成失败");
+      const { data, error } = await supabase.functions.invoke("generate-diary-image", {
+        body: { diaryText: prompt },
+      });
+      if (error || !data?.imageUrl) {
+        toast.error(data?.error ?? error?.message ?? "生成失败");
       } else {
-        setUrl(res.url);
+        setUrl(data.imageUrl);
+        setOptimized(data.optimizedPrompt ?? null);
         toast.success("配图完成 ✨");
       }
     } catch (e: any) {
