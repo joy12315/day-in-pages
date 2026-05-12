@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
-import { useServerFn } from "@tanstack/react-start";
 import { formatTime } from "@/lib/date";
-import { generateImage } from "@/lib/image.functions";
 import { Sparkles, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
