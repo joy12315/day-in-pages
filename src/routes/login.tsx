@@ -4,7 +4,17 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/use-auth";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/login")({ component: LoginPage });
+export const Route = createFileRoute("/login")({
+  component: LoginPage,
+  head: () => ({
+    meta: [
+      { title: "登录 · 时光胶囊" },
+      { name: "description", content: "登录时光胶囊，开始记录今天的小事。" },
+      { name: "robots", content: "noindex, nofollow" },
+    ],
+    links: [{ rel: "canonical", href: "https://daystory.lovable.app/login" }],
+  }),
+});
 
 function LoginPage() {
   const nav = useNavigate();
