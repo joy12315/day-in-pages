@@ -116,7 +116,7 @@ export function Timeline({ entries }: { entries: EntryWithPhotos[] }) {
   }
   return (
     <div className="relative pl-6 mt-6">
-      <div className="absolute left-2 top-2 bottom-2 w-px bg-border" />
+      <div className="absolute left-2 top-2 bottom-2 w-px border-l-2 border-dashed border-[color-mix(in_oklab,var(--leaf-deep)_30%,transparent)]" />
       <div className="space-y-5">
         {entries.map((e, i) => (
           <motion.div
@@ -126,8 +126,10 @@ export function Timeline({ entries }: { entries: EntryWithPhotos[] }) {
             transition={{ delay: i * 0.04 }}
             className="relative"
           >
-            <div className="absolute -left-[19px] top-3 w-3 h-3 rounded-full bg-primary ring-4 ring-background" />
-            <div className="bg-card rounded-2xl p-4 shadow-soft border">
+            <div className="absolute -left-[22px] top-3.5 w-4 h-4 rounded-full bg-[var(--sun)] ring-4 ring-background shadow-soft flex items-center justify-center text-[10px]">
+              <span className="text-[var(--leaf-deep)]">✦</span>
+            </div>
+            <div className="leaf-card bg-card rounded-2xl p-4 shadow-soft border-l-4 border-l-primary/70">
               <div className="text-xs text-muted-foreground font-mono mb-1">{formatTime(e.created_at)}</div>
               {e.content && <p className="whitespace-pre-wrap leading-relaxed">{e.content}</p>}
               {e.photos.length > 0 && (
