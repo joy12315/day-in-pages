@@ -69,7 +69,7 @@ export function EntryComposer({ onPosted }: { onPosted: () => void }) {
     <div className="relative">
       <motion.div
         layout
-        className="bg-card rounded-3xl p-5 shadow-soft border"
+        className="leaf-card grain bg-card rounded-[28px] p-5 shadow-soft"
         animate={flying ? { scale: 0.3, x: 100, y: 200, opacity: 0 } : { scale: 1, x: 0, y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeIn" }}
         onAnimationComplete={() => { if (flying) setFlying(false); }}
@@ -106,9 +106,9 @@ export function EntryComposer({ onPosted }: { onPosted: () => void }) {
           <button
             onClick={submit}
             disabled={busy}
-            className="flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-full shadow-soft hover:opacity-90 disabled:opacity-50 transition"
+            className="group flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-full shadow-soft hover:shadow-pop hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 transition-all font-semibold"
           >
-            <Send className="w-4 h-4" />
+            <Send className="w-4 h-4 group-hover:rotate-12 transition-transform" />
             <span>{busy ? "投递中…" : "投递"}</span>
           </button>
         </div>

@@ -57,7 +57,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "时光胶囊" },
       { property: "og:locale", content: "zh_CN" },
-      { name: "theme-color", content: "#fafafa" },
+      { name: "theme-color", content: "#f5f0e1" },
       { name: "application-name", content: "时光胶囊" },
       { name: "robots", content: "index, follow" },
     ],
@@ -65,7 +65,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Nunito:wght@400;600;800&family=Long+Cang&display=swap" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Quicksand:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Long+Cang&display=swap" },
     ],
     scripts: [
       {

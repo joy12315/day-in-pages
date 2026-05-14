@@ -28,17 +28,19 @@ function AuthLayout() {
   return (
     <div className="min-h-screen pb-24 md:pb-8 md:pt-20">
       {/* Desktop top nav */}
-      <header className="hidden md:flex fixed top-0 inset-x-0 z-30 h-16 items-center justify-between px-8 bg-background/80 backdrop-blur border-b">
-        <Link to="/today" className="flex items-center gap-2">
-          <span className="text-2xl">📮</span>
-          <span className="font-display text-2xl text-primary">时光胶囊</span>
+      <header className="hidden md:flex fixed top-0 inset-x-0 z-30 h-16 items-center justify-between px-8 bg-background/75 backdrop-blur-md border-b border-[color-mix(in_oklab,var(--leaf-deep)_15%,transparent)]">
+        <Link to="/today" className="flex items-center gap-2.5 group">
+          <span className="inline-flex items-center justify-center w-9 h-9 rounded-2xl bg-[color-mix(in_oklab,var(--accent)_55%,var(--card))] shadow-soft group-hover:rotate-[-6deg] transition-transform">
+            <span className="text-lg">📮</span>
+          </span>
+          <span className="font-display text-2xl text-[var(--leaf-deep)] tracking-tight">时光胶囊</span>
         </Link>
         <nav className="flex items-center gap-1">
           {links.map(l => {
             const active = loc.pathname.startsWith(l.to);
             return (
               <Link key={l.to} to={l.to}
-                className={`flex items-center gap-2 px-4 py-2 rounded-full transition ${active ? "bg-primary text-primary-foreground" : "hover:bg-muted"}`}>
+                className={`flex items-center gap-2 px-4 py-2 rounded-full transition font-medium ${active ? "bg-primary text-primary-foreground shadow-soft" : "text-muted-foreground hover:bg-[color-mix(in_oklab,var(--accent)_30%,transparent)] hover:text-foreground"}`}>
                 <l.icon className="w-4 h-4" />{l.label}
               </Link>
             );
@@ -56,7 +58,7 @@ function AuthLayout() {
       <main>{<Outlet />}</main>
 
       {/* Mobile bottom nav */}
-      <nav className="md:hidden fixed bottom-0 inset-x-0 z-30 h-16 bg-background/90 backdrop-blur border-t flex items-center justify-around">
+      <nav className="md:hidden fixed bottom-0 inset-x-0 z-30 h-16 bg-card/90 backdrop-blur-md border-t border-[color-mix(in_oklab,var(--leaf-deep)_15%,transparent)] flex items-center justify-around shadow-[0_-8px_24px_-12px_oklch(0.35_0.08_152/0.18)]">
         {links.map(l => {
           const active = loc.pathname.startsWith(l.to);
           return (
