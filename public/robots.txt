@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /login
+Disallow: /today
+Disallow: /shelf
+Disallow: /settings
+Disallow: /story/
+
+Sitemap: https://daystory.lovable.app/sitemap.xml
